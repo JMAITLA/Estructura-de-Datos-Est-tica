@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Estudiantes</title>
+</head>
+<body>
+  <h2>Estudiantes</h2>
+
+  <input id="matricula" placeholder="Matrícula">
+  <input id="nombre" placeholder="Nombre">
+  <input id="apellido" placeholder="Apellido">
+  <input id="telefono" placeholder="Teléfono">
+  <input id="correo" placeholder="Correo">
+  <input id="carrera" placeholder="Carrera">
+  <input id="grado" placeholder="Grado">
+  <br><br>
+  <button onclick="agregar()">Agregar</button>
+  <button onclick="buscar()">Buscar</button>
+  <button onclick="modificar()">Modificar</button>
+  <button onclick="eliminar()">Eliminar</button>
+  <br><br>
+  <pre id="lista"></pre>
+
+  <script>
+    const estudiantes = [];
+
+    function obtenerDatos() {
+      return {
+        matricula: document.getElementById("matricula").value,
+        nombre: document.getElementById("nombre").value,
+        apellido: document.getElementById("apellido").value,
+        telefono: document.getElementById("telefono").value,
+        correo: document.getElementById("correo").value,
+        carrera: document.getElementById("carrera").value,
+        grado: document.getElementById("grado").value
+      };
+    }
+
+    function agregar() {
+      const e = obtenerDatos();
+      estudiantes.push(e);
+      mostrar();
+    }
+
+    function buscar() {
+      const mat = document.getElementById("matricula").value;
+      const e = estudiantes.find(est => est.matricula === mat);
+      if (e) {
+        Object.keys(e).forEach(key => {
+          document.getElementById(key).value = e[key];
+        });
+      } else {
+        alert("No encontrado");
+      }
+    }
+
+    function modificar() {
+      const e = obtenerDatos();
+      const i = estudiantes.findIndex(est => est.matricula === e.matricula);
+      if (i !== -1) {
+        estudiantes[i] = e;
+        mostrar();
+      }
+    }
+
+    function eliminar() {
+      const mat = document.getElementById("matricula").value;
+      const i = estudiantes.findIndex(est => est.matricula === mat);
+      if (i !== -1) {
+        estudiantes.splice(i, 1);
+        mostrar();
+      }
+    }
+
+    function mostrar() {
+      document.getElementById("lista").textContent = JSON.stringify(estudiantes, null, 2);
+    }
+  </script>
+</body>
+</html>

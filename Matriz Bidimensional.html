@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Matriz</title>
+</head>
+<body>
+  <h2>Matriz Bidimensional</h2>
+  Filas: <input type="number" id="filas"> 
+  Columnas: <input type="number" id="columnas">
+  <button onclick="crearMatriz()">Crear</button>
+  <br><br>
+  <div id="inputs"></div>
+  <button onclick="procesar()">Procesar</button>
+  <pre id="resultado"></pre>
+
+  <script>
+    function crearMatriz() {
+      const filas = parseInt(document.getElementById("filas").value);
+      const columnas = parseInt(document.getElementById("columnas").value);
+      const contenedor = document.getElementById("inputs");
+      contenedor.innerHTML = "";
+      for (let i = 0; i < filas; i++) {
+        for (let j = 0; j < columnas; j++) {
+          const input = document.createElement("input");
+          input.type = "number";
+          input.id = `m_${i}_${j}`;
+          contenedor.appendChild(input);
+        }
+        contenedor.appendChild(document.createElement("br"));
+      }
+    }
+
+    function procesar() {
+      const filas = parseInt(document.getElementById("filas").value);
+      const columnas = parseInt(document.getElementById("columnas").value);
+      const matriz = [];
+      let max = -Infinity, min = Infinity;
+      let posMax = [0, 0], posMin = [0, 0];
+      let texto = "Matriz:\n";
+
+      for (let i = 0; i < filas; i++) {
+        matriz[i] = [];
+        for (let j = 0; j < columnas; j++) {
+          const val = parseInt(document.getElementById(`m_${i}_${j}`).value);
+          matriz[i][j] = val;
+          texto += val + "\t";
+          if (val > max) {
+            max = val;
+            posMax = [i, j];
+          }
+          if (val < min) {
+            min = val;
+            posMin = [i, j];
+          }
+        }
+        texto += "\n";
+      }
+
+      texto += `\nMáximo: ${max} en [${posMax[0]}][${posMax[1]}]`;
+      texto += `\nMínimo: ${min} en [${posMin[0]}][${posMin[1]}]`;
+      document.getElementById("resultado").textContent = texto;
+    }
+  </script>
+</body>
+</html>
